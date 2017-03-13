@@ -103,6 +103,7 @@ namespace GoogleMapsCurrentLocation
             SetUpMap();
 
 
+            // wrong way to use async await
             // Check User Location Settings
             CheckLocationSettings();
 
