@@ -24,9 +24,7 @@ namespace GoogleMapsCurrentLocation
     {
 
         #region Initialize Variables
-
-        // test for git
-
+        
         protected const string TAG = "GoogleMaps-CurrentLocation";
 
         // kwdikos gia Dialog Location Settings
