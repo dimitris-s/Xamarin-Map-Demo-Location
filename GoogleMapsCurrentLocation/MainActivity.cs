@@ -72,8 +72,7 @@ namespace GoogleMapsCurrentLocation
         #endregion
 
         #region "Lifecycle Methods"
-
-
+        
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -94,30 +93,24 @@ namespace GoogleMapsCurrentLocation
                 Toast.MakeText(this, "Google Play Services not Installed", ToastLength.Long).Show();
                 Finish();
             }
-
-
+            
             BuildGoogleApiClient();
             CreateLocationRequest();
             BuildLocationSettingsRequest();
 
             SetUpMap();
-
-
-            // wrong way to use async await
+            
             // Check User Location Settings
             CheckLocationSettings();
 
-
         }
-
-
+        
         protected override void OnStart()
         {
             base.OnStart();
             mGoogleApiClient.Connect();
         }
-
-
+        
         protected override async void OnResume()
         {
             base.OnResume();
@@ -224,22 +217,22 @@ namespace GoogleMapsCurrentLocation
             }
         }
         
-        private async void CheckLocationSettings()
+        private void CheckLocationSettings()
         {
-            await CheckLocationSettingsAsync();
+            Task.Run( 
+                async() => await CheckLocationSettingsAsync()
+            ); 
         }
 
         private async Task CheckLocationSettingsAsync()
         {
-            //var result = await LocationServices.SettingsApi.CheckLocationSettingsAsync(mGoogleApiClient, mLocationSettingsRequest);
             LocationSettingsResult locationSettingResult = await LocationServices.SettingsApi.CheckLocationSettingsAsync(mGoogleApiClient, mLocationSettingsRequest);
-            // Antoistio toy onResult(LocationSettingsResult result)
+            // Antoistixo toy onResult(LocationSettingsResult result)
             await HanleResult(locationSettingResult);
         }
 
         private async Task HanleResult(LocationSettingsResult locationSettingResult)
         {
-            //var status = locationSettingResult.Status;
             Statuses status = locationSettingResult.Status;
 
             switch (status.StatusCode)
