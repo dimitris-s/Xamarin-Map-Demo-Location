@@ -56,8 +56,7 @@ namespace GoogleMapsCurrentLocation
 
         // Camera
         CameraUpdate mCamera;
-
-
+        
         // Gia emfanisi toy xarth
         private GoogleMap mGoogleMap;
 
