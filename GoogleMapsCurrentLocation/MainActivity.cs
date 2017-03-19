@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Android.Util;
 using Android.Content;
 using Android.Runtime;
+using Android.Support.V4.Content;
+using Android;
 
 namespace GoogleMapsCurrentLocation
 {
@@ -92,6 +94,9 @@ namespace GoogleMapsCurrentLocation
                 Toast.MakeText(this, "Google Play Services not Installed", ToastLength.Long).Show();
                 Finish();
             }
+
+            // Check for android API level
+            CheckApiLevel();
             
             BuildGoogleApiClient();
             CreateLocationRequest();
@@ -103,7 +108,8 @@ namespace GoogleMapsCurrentLocation
             CheckLocationSettings();
 
         }
-        
+
+       
         protected override void OnStart()
         {
             base.OnStart();
@@ -167,6 +173,41 @@ namespace GoogleMapsCurrentLocation
                     mLastUpdateTime = bundle.GetString(KEY_LAST_UPDATED_TIME_STRING);
                 }
             }
+        }
+
+        private void CheckApiLevel()
+        {
+            // if Marshmallow or later ask/check for permissions
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            {
+
+                ////var permissionCheck = ContextCompat.CheckSelfPermission(Android.App.Application.Context, Manifest.Permission.Camera);
+                ////return (permissionCheck == Android.Content.PM.Permission.Granted);
+                //var permissionCheck = ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation);
+
+                if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) == Android.Content.PM.Permission.Granted)
+                {
+                    Log.Info(TAG, "Acces Fine Location permission Granted");
+                    //Location Permission already granted
+
+                    // start process for map and location
+                }
+                else {
+                    //Request Permissions
+                    CheckPermissionsNeeded();
+                }
+            }
+
+        }
+
+        private void CheckPermissionsNeeded()
+        {
+            /*
+             * if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+             */
+
+            // show explanation if needed
         }
 
         protected bool IsGooglePlayServicesInstallled()
